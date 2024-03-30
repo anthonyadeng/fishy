@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import SingleSelectable from './SingleSelectable';
 import EditButton from './EditButton';
-import { interBold, inter, lusitana } from '../util/fonts';
+import { interBold, inter, lusitana } from '@util/fonts';
+import { getTodos } from '@db/controller';
 type TodoProps = {
   todos: string[];
   completed: string[];
@@ -54,6 +55,17 @@ const Todo = (props: TodoProps) => {
         gap: '.5rem .5rem',
       }}
     >
+      <div id='FetchTodosTest'>
+        <button
+          onClick={() => {
+            getTodos().then((todos) => {
+              setTodos(todos.map((todo) => todo.label));
+            });
+          }}
+        >
+          Fetch Todos
+        </button>
+      </div>
       <div id='addNewWrapper'>
         <h3 className={interBold.className}>Add New</h3>
         <input type='text' id='newTodo' name='newTodo' />

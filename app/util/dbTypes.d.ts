@@ -1,8 +1,4 @@
-type Todo = {
-  id: string;
-  title: string;
-  completed: boolean;
-};
+type Todo = string;
 enum TankType {
   Freshwater,
   Saltwater,

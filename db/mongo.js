@@ -3,17 +3,14 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGO_URI;
 
 const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.latest,
 });
-
-export let db;
-
-async function connect() {
+let db;
+export async function connect() {
   try {
+    console.log('Connecting to MongoDB');
     await client.connect();
     console.log('Connected to MongoDB');
     db = client.db(process.env.MONGO_DB);
@@ -21,12 +18,7 @@ async function connect() {
     console.error('Error connecting to MongoDB', error);
   }
 }
-
-// Call connect when your app starts
-connect().catch(console.dir);
-
-// Then you can call doSomeOperation whenever you need to perform an operation
-
+connect().catch(console.error);
 async function close() {
   try {
     await client.close();
@@ -37,3 +29,4 @@ async function close() {
 }
 
 process.on('SIGINT', close).on('SIGTERM', close).on('SIGUSR2', close);
+export { db };

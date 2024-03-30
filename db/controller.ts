@@ -1,9 +1,10 @@
-import { db } from '../../db/mongo.js';
+'use server';
 
+import { db } from './mongo.js';
 export const getTodos = async (): Promise<Todo[]> => {
   try {
-    const todos = await db.collection('todos').find().toArray();
-    return todos;
+    const doc = await db.collection('UserData').findOne({ uid: '1' });
+    return doc.todosGeneral.toArray();
   } catch (error) {
     console.error('Error in getTodos:', error);
     return [];
